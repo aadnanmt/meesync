@@ -7,7 +7,7 @@
 - **Backend** `TS (Hono)` `Python (FastAPI)`
 - **Databases** `PostgreSQL` `SQLite` `Redis`
 - **System** `Arch (Niri)` `Fish/Bash` `Kitty`
-- **Tooling** `Neovim` `Git` `Podman` `Deno` `NodeJS(pnpm)` `Wrangler`
+- **Tooling** `Neovim` `Git` `Podman` `Deno` `NodeJS(pnpm)`
 
 ### Dev activity [ ■_■ ]
 
