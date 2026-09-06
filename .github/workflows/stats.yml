@@ -4,9 +4,14 @@ on:
     - cron: '17 5,17 * * *'
   workflow_dispatch:
 
+concurrency:
+  group: readme-sync
+  cancel-in-progress: true
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     steps:
       - name: checkout private build
         uses: actions/checkout@v4
@@ -19,20 +24,38 @@ jobs:
           path: public-repo
 
       - uses: denoland/setup-deno@v2
+        with:
+          deno-version: v2.x
 
-      - name: cache deps
-        run: deno install
+      - name: cache deno deps
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/deno
+          key: deno-deps-${{ hashFiles('deno.lock') }}
+          restore-keys: |
+            deno-deps-
 
-      - name: install & generate
+      - name: install deps
+        run: deno install --frozen
+
+      - name: generate & format
         run: |
           deno run -A scripts/index.ts ./public-repo/README.md ./stats.json
+          deno fmt public-repo/README.md stats.json
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
 
-      - name: format generated files
-        run: deno fmt public-repo/README.md stats.json
+      - name: check for changes
+        id: changes
+        run: |
+          if git diff --quiet public-repo/README.md && git diff --quiet stats.json; then
+            echo "changed=false" >> $GITHUB_OUTPUT
+          else
+            echo "changed=true" >> $GITHUB_OUTPUT
+          fi
 
       - name: push to public repo
+        if: steps.changes.outputs.changed == 'true'
         working-directory: ./public-repo
         run: |
           git config --local user.email "adnan@nanoolabs.dev"
@@ -42,6 +65,7 @@ jobs:
           git push origin HEAD
 
       - name: push stats to this repo
+        if: steps.changes.outputs.changed == 'true'
         run: |
           git config --local user.email "adnan@nanoolabs.dev"
           git config --local user.name "Adnan Slamet Wibowo"
