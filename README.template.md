@@ -1,4 +1,4 @@
-# 18 y/o dev & tech minimalist [⌐■_■]
+## 18 y/o dev & tech minimalist [⌐■_■]
 
 > Building high-performance edge ecosystems at
 > [`nanoolabs`](https://github.com/nanoolabs).
@@ -7,7 +7,7 @@
 - **Backend** `TS (Hono)` `Python (FastAPI)`
 - **Databases** `PostgreSQL` `SQLite` `Redis`
 - **System** `Arch (Niri)` `Fish/Bash` `Kitty`
-- **Tooling** `Neovim` `Git` `Podman` `Bun/Pnpm` `Wrangler`
+- **Tooling** `Neovim` `Git` `Podman` `Deno` `NodeJS(pnpm)` `Wrangler`
 
 ### Dev activity [ ■_■ ]
 
@@ -25,6 +25,6 @@ Principles: Performance, zero-bloat, and scalable architecture.
 ### Connect with me [ ▰_▰ ]
 
 [Twitter](https://x.com/aadnanmt) / [Instagram](https://instagram.com/aadnanmt)
-/ [Telegram](https://t.me/adnanbuilds) / [Email](mailto:adnan@nanoolabs.dev)
+/ [Telegram](https://t.me/nan_simple) / [Email](mailto:adnan@nanoolabs.dev)
 
-<p align="right"><small>Auto-sync 12h via Bun/TypeScript. No commit farming. Check this repository: <a href="https://github.com/aadnanmt/readmeSync">readmeSync</a></small></p>
+<p align="right"><small>Auto-sync 12h via Deno/TypeScript. No commit farming. Check this repository: <a href="https://github.com/aadnanmt/readmeSync">readmeSync</a></small></p>
