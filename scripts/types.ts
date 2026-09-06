@@ -1,21 +1,6 @@
 // scripts/types.ts
 
-// Language types
-export interface LanguageNode {
-  color: string
-  name: string
-}
-
-export interface LanguageEdge {
-  size: number
-  node: LanguageNode
-}
-
-export interface Languages {
-  edges: LanguageEdge[]
-}
-
-// Repository types
+// Repository node with disk usage, license, owner, and languages
 export interface RepositoryNode {
   diskUsage: number
   licenseInfo: {
@@ -24,42 +9,47 @@ export interface RepositoryNode {
   owner: {
     login: string
   }
-  languages: Languages
+  languages: {
+    edges: {
+      size: number
+      node: {
+        name: string
+      }
+    }[]
+  }
 }
 
-export interface Repositories {
-  nodes: RepositoryNode[]
-}
-
-// Contribution types
+// Single contribution day
 export interface ContributionDay {
   contributionCount: number
   date: string // ISO 8601 date string
 }
 
+// Week contribution days
 export interface ContributionWeek {
   contributionDays: ContributionDay[]
 }
 
+// Contribution calendar with total and weekly
 export interface ContributionCalendar {
   totalContributions: number
   weeks: ContributionWeek[]
 }
 
-export interface ContributionsCollection {
-  contributionCalendar: ContributionCalendar
-}
-
-// User (or Viewer) type
+// Authenticated user / viewer with repos and contributions
 export interface GitHubUser {
   followers: {
     totalCount: number
   }
-  repositories: Repositories
-  contributionsCollection: ContributionsCollection
+  repositories: {
+    nodes: RepositoryNode[]
+  }
+  contributionsCollection: {
+    contributionCalendar: ContributionCalendar
+  }
 }
 
-// Full GraphQL Response type
+// GraphQL response wrapper (viewer or specific user)
 export interface GitHubGqlResponse {
   // the authenticated user (used with the 'viewer' query)
   viewer?: GitHubUser
