@@ -12,6 +12,10 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     timeout-minutes: 5
+    env:
+      PUBLIC_PROFILE_REPO: ${{ vars.PUBLIC_PROFILE_REPO }}
+      GIT_AUTHOR_EMAIL: ${{ vars.GIT_AUTHOR_EMAIL }}
+      GIT_AUTHOR_NAME: ${{ vars.GIT_AUTHOR_NAME }}
     steps:
       - name: checkout private build
         uses: actions/checkout@v4
@@ -19,7 +23,7 @@ jobs:
       - name: checkout public profile
         uses: actions/checkout@v4
         with:
-          repository: aadnanmt/aadnanmt
+          repository: ${{ env.PUBLIC_PROFILE_REPO }}
           token: ${{ secrets.GH_TOKEN }}
           path: public-repo
 
@@ -58,8 +62,8 @@ jobs:
         if: steps.changes.outputs.changed == 'true'
         working-directory: ./public-repo
         run: |
-          git config --local user.email "adnan@nanoolabs.dev"
-          git config --local user.name "Adnan Slamet Wibowo"
+          git config --local user.email "${{ env.GIT_AUTHOR_EMAIL }}"
+          git config --local user.name "${{ env.GIT_AUTHOR_NAME }}"
           git add README.md
           git commit -m "docs: sync automated README.md [skip ci]" || exit 0
           git push origin HEAD
@@ -67,8 +71,8 @@ jobs:
       - name: push stats to this repo
         if: steps.changes.outputs.changed == 'true'
         run: |
-          git config --local user.email "adnan@nanoolabs.dev"
-          git config --local user.name "Adnan Slamet Wibowo"
+          git config --local user.email "${{ env.GIT_AUTHOR_EMAIL }}"
+          git config --local user.name "${{ env.GIT_AUTHOR_NAME }}"
           git add stats.json
           git commit -m "data: update stats.json for portfolio [skip ci]" || exit 0
           git push origin HEAD
