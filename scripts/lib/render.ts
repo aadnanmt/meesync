@@ -1,7 +1,7 @@
 // scripts/lib/render.ts
+import { parseCommit } from './parser.ts'
 
-import { parseCommit, parseLanguage } from './parser.ts'
-
+// Create ASCII bar visualization for a value relative to max
 export function makeBar(count: number, max: number, width: number): string {
   const filledLength = Math.round((count / max) * width)
   const filled = '█'.repeat(Math.max(0, filledLength))
@@ -9,6 +9,7 @@ export function makeBar(count: number, max: number, width: number): string {
   return `[${filled}${empty}]`
 }
 
+// Wrap lines in a section header/footer with ASCII border
 export function renderSection(title: string, lines: string[]): string {
   return [
     `$ aadnanmt-stats --${title.toLowerCase().replace(/\s+/g, '-')}`,
@@ -18,17 +19,18 @@ export function renderSection(title: string, lines: string[]): string {
   ].join('\n')
 }
 
-export function formatLanguages(user: any): string[] {
-  const sortedLangs = parseLanguage(user)
-  const totalSize = sortedLangs.reduce((acc, [, size]) => acc + size, 0)
+// Format language bars with percentage (accepts precompute language data)
+export function formatLanguages(languageData: [string, number][]): string[] {
+  const totalSize = languageData.reduce((acc, [, size]) => acc + size, 0)
 
-  return sortedLangs.map(([name, size]) => {
+  return languageData.map(([name, size]) => {
     const bar = makeBar(size, totalSize, 20)
     const percentage = ((size / totalSize) * 100).toFixed(1)
     return `${name.padEnd(10)} ${bar} ${percentage}%`
   })
 }
 
+// Format last 7 days commit activity as ASCII bars
 export function formatCommits(user: any): string[] {
   const commitData = parseCommit(user)
   const maxCommits = Math.max(
@@ -45,6 +47,7 @@ export function formatCommits(user: any): string[] {
   })
 }
 
+// Fill template placeholders with render section
 export function buildReadme(
   template: string,
   statsOutput: string,
