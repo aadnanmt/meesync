@@ -1,4 +1,5 @@
 // scripts/index.ts
+// Entry point: fetches GitHub stats, renders README + optional JSON output
 import { readFileSync, writeFileSync } from 'node:fs'
 import path from 'node:path'
 import { fetchData } from './lib/github.ts'
@@ -9,19 +10,16 @@ import {
   formatLanguages,
   renderSection,
 } from './lib/render.ts'
-import { GITHUB_QUERY } from './lib/query.ts'
-import {
-  output,
-  parseCodebaseStats,
-  parseLanguage,
-  parseStreak,
-} from './lib/parser.ts'
+import { parseCodebaseStats, parseLanguage, parseStreak } from './lib/parser.ts'
+import config from '../config.json' with { type: 'json' }
+
+const { output } = config
 
 async function main() {
   console.info('[▱_▱] Starting sync...')
 
   // 1. Fetch & Validate
-  const data = await fetchData(GITHUB_QUERY)
+  const data = await fetchData()
   if (!data?.viewer) throw new Error('GitHub API Error')
   const user = data.viewer
 
@@ -46,7 +44,10 @@ async function main() {
   }
 
   if (output.readmeSections.languages) {
-    sections.languages = renderSection('languages', formatLanguages(user))
+    sections.languages = renderSection(
+      'languages',
+      formatLanguages(languageData),
+    )
   }
 
   if (output.readmeSections.profile) {
