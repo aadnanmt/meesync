@@ -1,6 +1,48 @@
 import { GitHubGqlResponse } from '../types.ts'
 
-export async function fetchData(query: string): Promise<GitHubGqlResponse> {
+const GITHUB_QUERY = `
+  query {
+    viewer {
+      login
+      followers {
+        totalCount
+      }
+      repositories(first: 100, ownerAffiliations: [OWNER, ORGANIZATION_MEMBER], isFork: false) {
+        nodes {
+          diskUsage
+          licenseInfo {
+            spdxId
+          }
+          owner {
+            login
+          }
+          languages(first: 10, orderBy: {field: SIZE, direction: DESC}) {
+            edges {
+              size
+              node {
+                color
+                name
+              }
+            }
+          }
+        }
+      }
+      contributionsCollection {
+        contributionCalendar {
+          totalContributions
+          weeks {
+            contributionDays {
+              contributionCount
+              date
+            }
+          }
+        }
+      }
+    }
+  }
+`
+
+export async function fetchData(): Promise<GitHubGqlResponse> {
   const token = process.env.GH_TOKEN
   if (!token) {
     throw new Error(
@@ -14,7 +56,7 @@ export async function fetchData(query: string): Promise<GitHubGqlResponse> {
       Authorization: `Bearer ${token}`,
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ query }),
+    body: JSON.stringify({ query: GITHUB_QUERY }),
   })
 
   const result = await response.json()
