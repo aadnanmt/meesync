@@ -29,6 +29,9 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
 
+      - name: format generated files
+        run: deno fmt public-repo/README.md stats.json
+
       - name: push to public repo
         working-directory: ./public-repo
         run: |

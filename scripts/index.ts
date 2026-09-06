@@ -1,5 +1,4 @@
 // scripts/index.ts
-import 'jsr:@std/dotenv@0.225/load'
 import { readFileSync, writeFileSync } from 'node:fs'
 import path from 'node:path'
 import { fetchData } from './lib/github.ts'
