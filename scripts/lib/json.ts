@@ -1,3 +1,5 @@
+// scripts/lib/json.ts
+// Build stats JSON object from GitHub user data
 import type { GitHubUser } from '../types.ts'
 import { parseCodebaseStats, parseLanguage, parseStreak } from './parser.ts'
 
