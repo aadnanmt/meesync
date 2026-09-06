@@ -1,7 +1,9 @@
 import { ContributionWeek, GitHubUser } from '../types.ts'
 import config from '../../config.json' with { type: 'json' }
 
-const { allowedOwner, excludedLanguages, topLanguagesCount } = config
+const { allowedOwner, excludedLanguages, topLanguagesCount, output } = config
+
+export { output }
 
 function isOwnRepo(repo: { owner?: { login?: string } | null } | null) {
   return (

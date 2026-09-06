@@ -11,7 +11,12 @@ import {
   renderSection,
 } from './lib/render.ts'
 import { GITHUB_QUERY } from './lib/query.ts'
-import { parseCodebaseStats, parseLanguage, parseStreak } from './lib/parser.ts'
+import {
+  output,
+  parseCodebaseStats,
+  parseLanguage,
+  parseStreak,
+} from './lib/parser.ts'
 
 async function main() {
   console.info('[▱_▱] Starting sync...')
@@ -31,37 +36,54 @@ async function main() {
     ? `${(mb / 1024).toFixed(2)} GB`
     : `${mb.toFixed(2)} MB`
 
-  const codebaseSection = renderSection('codebase', [
-    `REPOS: ${codebaseMetrics.repoCount} (include private repo personal & org)`,
-    `VOLUME: ${storageStr}`,
-    `LICENSE: ${codebaseMetrics.mainLicense}`,
-  ])
+  const sections: Record<string, string> = {}
 
-  const statsSection = renderSection('languages', formatLanguages(user))
-  const profileSection = renderSection('profile', [
-    `FOLLOWERS: ${user.followers.totalCount}`,
-    `STREAK: ${parseStreak(user)} days`,
-  ])
-  const commitSection = renderSection('commit', [
-    ...formatCommits(user),
-    '',
-    `Total: ${user.contributionsCollection.contributionCalendar.totalContributions.toLocaleString()} commits in last year`,
-  ])
+  if (output.readmeSections.codebase) {
+    sections.codebase = renderSection('codebase', [
+      `REPOS: ${codebaseMetrics.repoCount} (include private repo personal & org)`,
+      `VOLUME: ${storageStr}`,
+      `LICENSE: ${codebaseMetrics.mainLicense}`,
+    ])
+  }
+
+  if (output.readmeSections.languages) {
+    sections.languages = renderSection('languages', formatLanguages(user))
+  }
+
+  if (output.readmeSections.profile) {
+    sections.profile = renderSection('profile', [
+      `FOLLOWERS: ${user.followers.totalCount}`,
+      `STREAK: ${parseStreak(user)} days`,
+    ])
+  }
+
+  if (output.readmeSections.commit) {
+    sections.commit = renderSection('commit', [
+      ...formatCommits(user),
+      '',
+      `Total: ${user.contributionsCollection.contributionCalendar.totalContributions.toLocaleString()} commits in last year`,
+    ])
+  }
 
   // 3. Output README
-  const outputPath = process.argv[2] || path.join(process.cwd(), 'README.md')
-  const template = readFileSync(
-    path.join(process.cwd(), 'README.template.md'),
-    'utf-8',
-  )
-  writeFileSync(
-    outputPath,
-    buildReadme(
-      template,
-      `${profileSection}\n\n${codebaseSection}\n\n${statsSection}`,
-      commitSection,
-    ),
-  )
+  if (output.readme) {
+    const outputPath = process.argv[2] || path.join(process.cwd(), 'README.md')
+    const template = readFileSync(
+      path.join(process.cwd(), 'README.template.md'),
+      'utf-8',
+    )
+    const statsContent = [
+      sections.profile,
+      sections.codebase,
+      sections.languages,
+    ]
+      .filter(Boolean)
+      .join('\n\n')
+    writeFileSync(
+      outputPath,
+      buildReadme(template, statsContent, sections.commit || ''),
+    )
+  }
 
   // 4. Output JSON (optional)
   const jsonPath = process.argv[3]
@@ -70,7 +92,7 @@ async function main() {
   }
 
   console.info('[▰_▰] System Synced')
-  console.info('[⌐■_■] Check your README.md and stats.json')
+  console.info('[▰_▰] Check your README.md and stats.json')
 }
 
 main().catch(console.error)

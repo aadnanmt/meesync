@@ -1,5 +1,8 @@
 {
-  "allowedOwner": ["aadnanmt", "nanoolabs"],
+  "allowedOwner": [
+    "aadnanmt",
+    "nanoolabs"
+  ],
   "excludedLanguages": [
     "EJS",
     "Stylus",
@@ -14,5 +17,15 @@
     "Rich Text Format",
     "Procfile"
   ],
-  "topLanguagesCount": 8
+  "topLanguagesCount": 7,
+  "output": {
+    "readme": true,
+    "stats": true,
+    "readmeSections": {
+      "profile": false,
+      "codebase": false,
+      "languages": true,
+      "commit": true
+    }
+  }
 }
