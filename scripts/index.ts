@@ -3,6 +3,7 @@ import 'jsr:@std/dotenv@0.225/load'
 import { readFileSync, writeFileSync } from 'node:fs'
 import path from 'node:path'
 import { fetchData } from './lib/github.ts'
+import { buildStatsJson } from './lib/json.ts'
 import {
   buildReadme,
   formatCommits,
@@ -64,20 +65,8 @@ async function main() {
 
   // 4. Output JSON (optional)
   const jsonPath = process.argv[3]
-  if (jsonPath) {
-    const json = {
-      updatedAt: new Date().toISOString(),
-      totalCommits:
-        user.contributionsCollection.contributionCalendar.totalContributions,
-      totalFollowers: user.followers.totalCount,
-      streak: parseStreak(user),
-      ...codebaseMetrics,
-      languages: languageData.map(([name, size]) => ({
-        name,
-        percentage: ((size / totalSize) * 100).toFixed(1),
-      })),
-    }
-    writeFileSync(jsonPath, JSON.stringify(json, null, 2))
+  if (jsonPath && output.stats) {
+    writeFileSync(jsonPath, JSON.stringify(buildStatsJson(user), null, 2))
   }
 
   console.info('[▰_▰] System Synced')
