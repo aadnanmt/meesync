@@ -1,10 +1,10 @@
 import { ContributionWeek, GitHubUser } from '../types.ts'
 import config from '../../config.json' with { type: 'json' }
 
-const { allowedOwner, excludedLanguages, topLanguagesCount, output } = config
+// Config for filtering repos and languages
+const { allowedOwner, excludedLanguages, topLanguagesCount } = config
 
-export { output }
-
+// Check if repo belong to allowed owners
 function isOwnRepo(repo: { owner?: { login?: string } | null } | null) {
   return (
     !!repo?.owner?.login &&
@@ -12,6 +12,7 @@ function isOwnRepo(repo: { owner?: { login?: string } | null } | null) {
   )
 }
 
+// language bytes across owned repos, filter excluded, sort by size
 export function parseLanguage(data: GitHubUser) {
   const langMap: Record<string, number> = {}
 
@@ -27,6 +28,7 @@ export function parseLanguage(data: GitHubUser) {
     .slice(0, topLanguagesCount)
 }
 
+// Get last 7 days contribution data
 export function parseCommit(data: GitHubUser) {
   const calendar = data.contributionsCollection.contributionCalendar
   return calendar.weeks
@@ -34,6 +36,7 @@ export function parseCommit(data: GitHubUser) {
     .slice(-7)
 }
 
+// Repo stats: count, total disk usage, most common license
 export function parseCodebaseStats(data: GitHubUser) {
   let totalDiskUsage = 0
   let repoCount = 0
@@ -55,6 +58,7 @@ export function parseCodebaseStats(data: GitHubUser) {
   return { repoCount, totalDiskUsage, mainLicense }
 }
 
+// Calculate current contribution streak (consecutive day with commits)
 export function parseStreak(data: GitHubUser) {
   const days = data.contributionsCollection.contributionCalendar.weeks.flatMap(
     (w: ContributionWeek) => w.contributionDays,
