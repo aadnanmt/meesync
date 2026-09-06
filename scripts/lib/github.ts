@@ -1,5 +1,6 @@
 import { GitHubGqlResponse } from '../types.ts'
 
+// GraphQL query to fetch user profile, repos, languages, and contribution calendar
 const GITHUB_QUERY = `
   query {
     viewer {
@@ -28,6 +29,7 @@ const GITHUB_QUERY = `
         }
       }
       contributionsCollection {
+        totalCommitContributions
         contributionCalendar {
           totalContributions
           weeks {
@@ -42,6 +44,7 @@ const GITHUB_QUERY = `
   }
 `
 
+// Fetch Github GraphQL data using authenticate token
 export async function fetchData(): Promise<GitHubGqlResponse> {
   const token = process.env.GH_TOKEN
   if (!token) {
