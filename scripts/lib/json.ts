@@ -9,7 +9,8 @@ export function buildStatsJson(user: GitHubUser) {
 
   return {
     updatedAt: new Date().toISOString(),
-    totalCommits: user.contributionsCollection.totalCommitContributions,
+    totalCommits:
+      user.contributionsCollection.contributionCalendar.totalContributions,
     totalFollowers: user.followers.totalCount,
     streak: parseStreak(user),
     ...parseCodebaseStats(user),
