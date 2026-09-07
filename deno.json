@@ -1,4 +1,6 @@
 {
+  "name": "meesync",
+  "exports": "./scripts/index.ts",
   "imports": {},
   "tasks": {
     "start": "deno run -A --env-file scripts/index.ts",

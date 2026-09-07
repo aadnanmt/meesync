@@ -27,4 +27,4 @@ Principles: Performance, zero-bloat, and scalable architecture.
 [Twitter](https://x.com/aadnanmt) / [Instagram](https://instagram.com/aadnanmt)
 / [Telegram](https://t.me/nan_simple) / [Email](mailto:adnan@nanoolabs.dev)
 
-<p align="right"><small>Auto-sync 12h via Deno/TypeScript. No commit farming. Check this repository: <a href="https://github.com/aadnanmt/readmeSync">readmeSync</a></small></p>
+<p align="right"><small>Auto-sync 12h via Deno/TypeScript. No commit farming. Check this repository: <a href="https://github.com/aadnanmt/meesync">meesync</a></small></p>

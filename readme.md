@@ -1,6 +1,6 @@
-# readmeSync
+# meesync
 
-A minimalist tool to synchronize your GitHub Profile README. Built with **Deno**
+A minimalist tool to synchronize your GitHub Profile stats. Built with **Deno**
 and **TypeScript**, it uses the **GitHub GraphQL API** for fast data fetching
 and headless templating.
 
