@@ -1,4 +1,4 @@
-## 18 y/o dev & tech minimalist [⌐■_■]
+## 18 y/o minimalist dev & tech nerd [⌐■_■]
 
 > Building high-performance edge ecosystems at [`nanoolabs`](https://github.com/nanoolabs).
 
