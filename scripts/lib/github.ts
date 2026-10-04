@@ -45,26 +45,26 @@ const GITHUB_QUERY = `
 
 // Fetch Github GraphQL data using authenticate token
 export async function fetchData(): Promise<GitHubGqlResponse> {
-  const token = process.env.GH_TOKEN
-  if (!token) {
-    throw new Error(
-      '[ ✖_✖ ] Damn, GH_TOKEN is missing. Check again your value GH_TOKEN on your .env',
-    )
-  }
+	const token = process.env.GH_TOKEN
+	if (!token) {
+		throw new Error(
+			'[ ✖_✖ ] Damn, GH_TOKEN is missing. Check again your value GH_TOKEN on your .env',
+		)
+	}
 
-  const response = await fetch('https://api.github.com/graphql', {
-    method: 'POST',
-    headers: {
-      Authorization: `Bearer ${token}`,
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ query: GITHUB_QUERY }),
-  })
+	const response = await fetch('https://api.github.com/graphql', {
+		method: 'POST',
+		headers: {
+			Authorization: `Bearer ${token}`,
+			'Content-Type': 'application/json',
+		},
+		body: JSON.stringify({ query: GITHUB_QUERY }),
+	})
 
-  const result = await response.json()
-  if (result.errors) {
-    console.error(result.errors)
-    throw new Error('[ ✖_✖ ] Graphql error!')
-  }
-  return result.data
+	const result = await response.json()
+	if (result.errors) {
+		console.error(result.errors)
+		throw new Error('[ ✖_✖ ] Graphql error!')
+	}
+	return result.data
 }

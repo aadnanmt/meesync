@@ -1,14 +1,11 @@
 ## 18 y/o dev & tech minimalist [⌐■_■]
 
-> Building high-performance edge ecosystems at
-> [`nanoolabs`](https://github.com/nanoolabs).
+> Building high-performance edge ecosystems at [`nanoolabs`](https://github.com/nanoolabs).
 
-I build small, fast, static-first tools and run them on the edge. If it can be
-static, it ships static. Stay simple for now, use or mix it with other tools if
-needed.
+I build small, fast, static-first tools and run them on the edge. If it can be static, it ships
+static. Stay simple for now, use or mix it with other tools if needed.
 
-**Now:** Development feature SVG output/section for
-[meesync](https://github.com/aadnanmt/meesync).
+**Now:** Development feature SVG output/section for [meesync](https://github.com/aadnanmt/meesync).
 
 ### Current Stack [ █_▀ ]
 

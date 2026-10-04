@@ -1,31 +1,31 @@
 {
-  "allowedOwner": [
-    "aadnanmt",
-    "nanoolabs"
-  ],
-  "excludedLanguages": [
-    "EJS",
-    "Stylus",
-    "Python",
-    "Lua",
-    "GLSL",
-    "Go",
-    "JSON",
-    "MDX",
-    "YAML",
-    "Nix",
-    "Rich Text Format",
-    "Procfile"
-  ],
-  "topLanguagesCount": 7,
-  "output": {
-    "readme": true,
-    "stats": true,
-    "readmeSections": {
-      "profile": false,
-      "codebase": false,
-      "languages": true,
-      "commit": true
-    }
-  }
+	"allowedOwner": [
+		"aadnanmt",
+		"nanoolabs"
+	],
+	"excludedLanguages": [
+		"EJS",
+		"Stylus",
+		"Python",
+		"Lua",
+		"GLSL",
+		"Go",
+		"JSON",
+		"MDX",
+		"YAML",
+		"Nix",
+		"Rich Text Format",
+		"Procfile"
+	],
+	"topLanguagesCount": 7,
+	"output": {
+		"readme": true,
+		"stats": true,
+		"readmeSections": {
+			"profile": false,
+			"codebase": false,
+			"languages": true,
+			"commit": true
+		}
+	}
 }

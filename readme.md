@@ -1,8 +1,7 @@
 # meesync
 
-A minimalist tool to synchronize your GitHub Profile stats. Built with **Deno**
-and **TypeScript**, it uses the **GitHub GraphQL API** for fast data fetching
-and headless templating.
+A minimalist tool to synchronize your GitHub Profile stats. Built with **Deno** and **TypeScript**,
+it uses the **GitHub GraphQL API** for fast data fetching and headless templating.
 
 ## Architecture
 
@@ -10,10 +9,8 @@ This project follows a **Headless Templating** approach:
 
 1. **Source**: `README.template.md` (Markdown with placeholders).
 2. **Logic**: Deno + TS scripts fetch data from GitHub GraphQL.
-3. **Renderer**: Injects stats into placeholders like `{{languages}}` and
-   `{{commit}}`.
-4. **Deploy**: GitHub Actions automates the sync every 12 hours to your public
-   profile repository.
+3. **Renderer**: Injects stats into placeholders like `{{languages}}` and `{{commit}}`.
+4. **Deploy**: GitHub Actions automates the sync every 12 hours to your public profile repository.
 
 ## Tech Stack
 
@@ -38,8 +35,7 @@ This project follows a **Headless Templating** approach:
    cp .env.example .env
    ```
 
-4. Set up your `GH_TOKEN` in the `.env` file (see the **Authentication** section
-   below).
+4. Set up your `GH_TOKEN` in the `.env` file (see the **Authentication** section below).
 5. Run the generator:
 
    ```bash
@@ -50,10 +46,10 @@ This project follows a **Headless Templating** approach:
 
 This project requires a GitHub Personal Access Token (PAT). You can use either:
 
-- **Fine-grained PAT**: (Recommended) Requires `Contents (Read/Write)`,
-  `Workflows (Read/Write)`, and `Profile (Read-only)` permissions.
-- **Classic PAT**: (Easier for multiple organizations) Requires `repo`,
-  `workflow`, and `read:user` scopes.
+- **Fine-grained PAT**: (Recommended) Requires `Contents (Read/Write)`, `Workflows (Read/Write)`,
+  and `Profile (Read-only)` permissions.
+- **Classic PAT**: (Easier for multiple organizations) Requires `repo`, `workflow`, and `read:user`
+  scopes.
 
 ## Local Development
 
@@ -87,16 +83,14 @@ gh secret set GH_TOKEN --repo your-username/your-repo
 
 ### Via Web UI
 
-1. Go to your repository → **Settings** → **Secrets and variables** →
-   **Actions**
+1. Go to your repository → **Settings** → **Secrets and variables** → **Actions**
 2. Click **New repository secret**
 3. Name: `GH_TOKEN`, Value: your PAT
 
 ### First time using GitHub CLI?
 
-See the
-[GitHub CLI quickstart](https://docs.github.com/en/github-cli/github-cli/quickstart)
-for installation and auth:
+See the [GitHub CLI quickstart](https://docs.github.com/en/github-cli/github-cli/quickstart) for
+installation and auth:
 
 ```bash
 gh auth login
@@ -104,13 +98,13 @@ gh auth login
 
 ## Automation
 
-Updates happen twice a day at **05:00 & 17:00 UTC**. Check
-`.github/workflows/stats.yml` for the CI/CD pipeline details.
+Updates happen twice a day at **05:00 & 17:00 UTC**. Check `.github/workflows/stats.yml` for the
+CI/CD pipeline details.
 
 ## CI Configuration (Repository Variables)
 
-The workflow uses repository variables for configurable values. Set them in
-**Settings → Variables** (not Secrets) of your repository:
+The workflow uses repository variables for configurable values. Set them in **Settings → Variables**
+(not Secrets) of your repository:
 
 ### Via GitHub CLI
 
@@ -127,8 +121,7 @@ gh variable set GIT_AUTHOR_NAME --body "Your Name"
 
 ### Via Web UI
 
-1. Go to your repository → **Settings** → **Variables** (under "Secrets and
-   variables")
+1. Go to your repository → **Settings** → **Variables** (under "Secrets and variables")
 2. Click **New repository variable**
 3. Add each variable:
    - `PUBLIC_PROFILE_REPO`, `your-username/your-profile-repo`
