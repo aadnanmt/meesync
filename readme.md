@@ -44,6 +44,20 @@ This project follows a **Headless Templating** approach:
    deno run -A scripts/index.ts <path-to-target-readme>
    ```
 
+## Configuration (`config.json`)
+
+SSoT for what get fetch, render, and ship. It stays **plain JSON on purpose**: the script imports it
+native (`with { type: 'json' }`)
+
+| Key                     | Meaning                                                                                                                                        |
+| ----------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| `allowedOwner`          | Only repos from these owners count. Everything else (other orgs, strangers) is ignored                                                         |
+| `excludedLanguages`     | Languages dropped from the language chart: noise entries (`Procfile`, `Rich Text Format`) or languages you don't want to signal                |
+| `topLanguagesCount`     | How many bars the chart keeps after sorting by byte size                                                                                       |
+| `output.readme`         | Write the README target at all                                                                                                                 |
+| `output.stats`          | Write `stats.json` (CI ships it to the profile repo)                                                                                           |
+| `output.readmeSections` | Which ASCII sections render (`profile`, `codebase`, `languages`, `commit`). They only show up if the template carries the matching placeholder |
+
 ## Authentication
 
 This project requires a GitHub Personal Access Token (PAT). You can use either:
