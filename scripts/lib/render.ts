@@ -45,10 +45,10 @@ export function formatCommits(user: GitHubUser): string[] {
 
 	return commitData.map((day: ContributionDay) => {
 		const dayName = new Intl.DateTimeFormat('en-US', {
-			weekday: 'short',
+			weekday: 'long',
 		}).format(new Date(day.date))
 		const bar = makeBar(day.contributionCount, maxCommits, 15)
-		return `${dayName.padEnd(5)} ${bar} ${day.contributionCount} commits`
+		return `${dayName.padEnd(9)} ${bar} ${day.contributionCount} commits`
 	})
 }
 
