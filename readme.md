@@ -29,13 +29,15 @@ This project follows a **Headless Templating** approach:
    deno install
    ```
 
-3. Initialize the environment file:
+3. Initialize the environment file and enable the pre-commit hook (runs `deno check` + `deno lint` +
+   `deno fmt --check`, blocks red commits):
 
    ```bash
-   cp .env.example .env
+   deno task setup
    ```
 
-4. Set up your `GH_TOKEN` in the `.env` file (see the **Authentication** section below).
+4. Set up your `GH_TOKEN` in the `.env` file (see the [Authentication](#authentication) section
+   below).
 5. Run the generator:
 
    ```bash

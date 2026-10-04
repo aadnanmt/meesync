@@ -1,0 +1,26 @@
+#!/bin/sh
+# pre-commit: block on red, warn about files left behind.
+
+if ! deno check scripts/index.ts; then
+  echo "COMMIT ABORTED: deno check failed" >&2
+  exit 1
+fi
+if ! deno lint; then
+  echo "COMMIT ABORTED: deno lint failed" >&2
+  exit 1
+fi
+if ! deno fmt --check; then
+  echo "COMMIT ABORTED: deno fmt --check failed" >&2
+  exit 1
+fi
+
+# leftover work not stage: do not block, just tell.
+# porcelain: column X = index (this commit), column Y = worktree.
+# leftover = untrack (??) or change but not stage (Y = M/A/D/R/C).
+leftover=$(git status --porcelain | grep -E '^\?\?|^.[MDARCT]' || true)
+if [ -n "$leftover" ]; then
+  echo ""
+  echo "WARNING: these did not make it into this commit:"
+  echo "$leftover"
+  echo "(ignore this if intentional)"
+fi

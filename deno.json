@@ -5,7 +5,7 @@
 		"format": "deno fmt",
 		"fmt:check": "deno fmt --check",
 		"lint": "deno lint",
-		"setup": "cp .env.example .env || copy .env.example .env"
+		"setup": "cp .env.example .env || copy .env.example .env && git config core.hooksPath .githooks"
 	},
 	"fmt": {
 		"semiColons": false,
