@@ -25,40 +25,42 @@ async function main() {
 
   // 2. Format & Assembly
   const languageData = parseLanguage(user)
-  const totalSize = languageData.reduce((acc, [, size]) => acc + size, 0)
-
   const codebaseMetrics = parseCodebaseStats(user)
   const mb = codebaseMetrics.totalDiskUsage / 1024
   const storageStr = mb > 1024
     ? `${(mb / 1024).toFixed(2)} GB`
     : `${mb.toFixed(2)} MB`
 
-  const sections: Record<string, string> = {}
+  const stats: string[] = []
 
-  if (output.readmeSections.codebase) {
-    sections.codebase = renderSection('codebase', [
-      `REPOS: ${codebaseMetrics.repoCount} (include private repo personal & org)`,
-      `VOLUME: ${storageStr}`,
-      `LICENSE: ${codebaseMetrics.mainLicense}`,
-    ])
-  }
-
-  if (output.readmeSections.languages) {
-    sections.languages = renderSection(
-      'languages',
-      formatLanguages(languageData),
+  if (output.readmeSections.profile) {
+    stats.push(
+      renderSection(user.login, 'profile', [
+        `FOLLOWERS: ${user.followers.totalCount}`,
+        `STREAK: ${parseStreak(user)} days`,
+      ]),
     )
   }
 
-  if (output.readmeSections.profile) {
-    sections.profile = renderSection('profile', [
-      `FOLLOWERS: ${user.followers.totalCount}`,
-      `STREAK: ${parseStreak(user)} days`,
-    ])
+  if (output.readmeSections.codebase) {
+    stats.push(
+      renderSection(user.login, 'codebase', [
+        `REPOS: ${codebaseMetrics.repoCount} (include private repo personal & org)`,
+        `REPO SIZE: ${storageStr}`,
+        `TOP LICENSE: ${codebaseMetrics.mainLicense}`,
+      ]),
+    )
   }
 
+  if (output.readmeSections.languages) {
+    stats.push(
+      renderSection(user.login, 'languages', formatLanguages(languageData)),
+    )
+  }
+
+  let commitSection = ''
   if (output.readmeSections.commit) {
-    sections.commit = renderSection('commit', [
+    commitSection = renderSection(user.login, 'commit', [
       ...formatCommits(user),
       '',
       `Total: ${user.contributionsCollection.contributionCalendar.totalContributions.toLocaleString()} commits in last year`,
@@ -66,29 +68,26 @@ async function main() {
   }
 
   // 3. Output README
+  const outputPath = process.argv[2] || path.join(process.cwd(), 'README.md')
+
   if (output.readme) {
-    const outputPath = process.argv[2] || path.join(process.cwd(), 'README.md')
     const template = readFileSync(
       path.join(process.cwd(), 'README.template.md'),
       'utf-8',
     )
-    const statsContent = [
-      sections.profile,
-      sections.codebase,
-      sections.languages,
-    ]
-      .filter(Boolean)
-      .join('\n\n')
     writeFileSync(
       outputPath,
-      buildReadme(template, statsContent, sections.commit || ''),
+      buildReadme(template, stats.join('\n\n'), commitSection),
     )
   }
 
   // 4. Output JSON (optional)
   const jsonPath = process.argv[3]
   if (jsonPath && output.stats) {
-    writeFileSync(jsonPath, JSON.stringify(buildStatsJson(user), null, 2))
+    writeFileSync(
+      jsonPath,
+      JSON.stringify(buildStatsJson(user), null, 2) + '\n',
+    )
   }
 
   console.info('[▰_▰] System Synced')

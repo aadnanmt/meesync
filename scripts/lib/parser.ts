@@ -1,4 +1,4 @@
-import { ContributionWeek, GitHubUser } from '../types.ts'
+import { ContributionWeek, GitHubUser, LangStat } from '../types.ts'
 import config from '../../config.json' with { type: 'json' }
 
 // Config for filtering repos and languages
@@ -13,19 +13,23 @@ function isOwnRepo(repo: { owner?: { login?: string } | null } | null) {
 }
 
 // language bytes across owned repos, filter excluded, sort by size
-export function parseLanguage(data: GitHubUser) {
-  const langMap: Record<string, number> = {}
+export function parseLanguage(data: GitHubUser): LangStat[] {
+  const langMap: Record<string, { size: number; color: string | null }> = {}
 
   data.repositories.nodes.filter(isOwnRepo).forEach((repo) => {
     repo.languages.edges.forEach((edge) => {
-      langMap[edge.node.name] = (langMap[edge.node.name] || 0) + edge.size
+      const cur = langMap[edge.node.name] || { size: 0, color: null }
+      cur.size += edge.size
+      if (!cur.color) cur.color = edge.node.color
+      langMap[edge.node.name] = cur
     })
   })
 
   return Object.entries(langMap)
     .filter(([name]) => !excludedLanguages.includes(name))
-    .sort(([, a], [, b]) => b - a)
+    .sort(([, a], [, b]) => b.size - a.size)
     .slice(0, topLanguagesCount)
+    .map(([name, { size, color }]): LangStat => [name, size, color])
 }
 
 // Get last 7 days contribution data

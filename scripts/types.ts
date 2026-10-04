@@ -13,11 +13,15 @@ export interface RepositoryNode {
     edges: {
       size: number
       node: {
+        color: string | null
         name: string
       }
     }[]
   }
 }
+
+// Language aggregate: name, total bytes, GitHub language color
+export type LangStat = [name: string, size: number, color: string | null]
 
 // Single contribution day
 export interface ContributionDay {
@@ -38,6 +42,7 @@ export interface ContributionCalendar {
 
 // Authenticated user / viewer with repos and contributions
 export interface GitHubUser {
+  login: string
   followers: {
     totalCount: number
   }
@@ -49,11 +54,8 @@ export interface GitHubUser {
   }
 }
 
-// GraphQL response wrapper (viewer or specific user)
+// GraphQL response wrapper (viewer only, the query never selects user(login:))
 export interface GitHubGqlResponse {
   // the authenticated user (used with the 'viewer' query)
   viewer?: GitHubUser
-
-  // a specific user (used with the 'user(login: "...")' query)
-  user?: GitHubUser
 }

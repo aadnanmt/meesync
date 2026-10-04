@@ -4,12 +4,14 @@
     "run": "deno run -A --env-file scripts/index.ts ./README.md ./stats.json",
     "format": "deno fmt",
     "fmt:check": "deno fmt --check",
+    "lint": "deno lint",
     "setup": "cp .env.example .env || copy .env.example .env"
   },
   "fmt": {
     "semiColons": false,
     "lineWidth": 80,
     "indentWidth": 2,
-    "singleQuote": true
+    "singleQuote": true,
+    "exclude": ["stats.svg"]
   }
 }
