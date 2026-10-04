@@ -6,5 +6,9 @@
 # logs
 *.log
 
+# generated artifacts: CI ships them to the profile repo
+README.md
+stats.json
+
 # deno compile output (100MB binary)
 meesync
