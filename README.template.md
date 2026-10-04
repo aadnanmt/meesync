@@ -5,7 +5,7 @@
 I build small, fast, static-first tools and run them on the edge. If it can be static, it ships
 static. Stay simple for now, use or mix it with other tools if needed.
 
-**Now:** Development feature SVG output/section for [meesync](https://github.com/aadnanmt/meesync).
+**Now:** Development Nanoo Apps Monorepo (Private repo on Nanoo Labs).
 
 ### Current Stack [ █_▀ ]
 
