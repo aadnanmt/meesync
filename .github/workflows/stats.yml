@@ -1,7 +1,7 @@
 name: Remote meesync
 on:
   schedule:
-    - cron: '17 5,17 * * *'
+    - cron: "17 5,17 * * *"
   workflow_dispatch:
 
 concurrency:
@@ -31,28 +31,20 @@ jobs:
         with:
           deno-version: v2.x
 
-      - name: cache deno deps
-        uses: actions/cache@v4
-        with:
-          path: ~/.cache/deno
-          key: deno-deps-${{ hashFiles('deno.lock') }}
-          restore-keys: |
-            deno-deps-
-
-      - name: install deps
-        run: deno install --frozen
-
       - name: generate & format
         run: |
-          deno run -A scripts/index.ts ./public-repo/README.md ./stats.json
-          deno fmt public-repo/README.md stats.json
+          deno run -A scripts/index.ts ./public-repo/README.md ./public-repo/stats.json
+          deno fmt public-repo/README.md public-repo/stats.json
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
 
       - name: check for changes
         id: changes
         run: |
-          if git diff --quiet public-repo/README.md && git diff --quiet stats.json; then
+          # README.md and stats.json written to public-repo/.
+          # The outer repo is not changed.
+          # "status" also sees files that are not in git yet.
+          if [ -z "$(git -C public-repo status --porcelain)" ]; then
             echo "changed=false" >> $GITHUB_OUTPUT
           else
             echo "changed=true" >> $GITHUB_OUTPUT
@@ -64,15 +56,6 @@ jobs:
         run: |
           git config --local user.email "${{ env.GIT_AUTHOR_EMAIL }}"
           git config --local user.name "${{ env.GIT_AUTHOR_NAME }}"
-          git add README.md
-          git commit -m "docs: sync automated README.md [skip ci]" || exit 0
-          git push origin HEAD
-
-      - name: push stats to this repo
-        if: steps.changes.outputs.changed == 'true'
-        run: |
-          git config --local user.email "${{ env.GIT_AUTHOR_EMAIL }}"
-          git config --local user.name "${{ env.GIT_AUTHOR_NAME }}"
-          git add stats.json
-          git commit -m "data: update stats.json for portfolio [skip ci]" || exit 0
+          git add README.md stats.json
+          git commit -m "docs: sync automated README + stats" || exit 0
           git push origin HEAD

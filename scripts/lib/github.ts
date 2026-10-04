@@ -29,7 +29,6 @@ const GITHUB_QUERY = `
         }
       }
       contributionsCollection {
-        totalCommitContributions
         contributionCalendar {
           totalContributions
           weeks {
