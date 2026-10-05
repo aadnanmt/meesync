@@ -9,7 +9,7 @@ static. Stay simple for now, use or mix it with other tools if needed.
 
 ### Current Stack [ █_▀ ]
 
-- **Frontend** `TS/JS (Astro)` `HTML` `CSS (Tailwind/UnoCSS)`
+- **Frontend** `TS/JS (Astro)` `CSS (Tailwind/UnoCSS)`
 - **Backend** `TS (Hono)`
 - **Databases** `SQLite (libSQL)` `Redis`
 - **System** `Arch (Niri)` `Fish/Bash` `Kitty`
