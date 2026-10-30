@@ -5,7 +5,7 @@
 I build small, fast, static-first tools and run them on the edge. If it can be static, it ships
 static. Stay simple for now, use or mix it with other tools if needed.
 
-**Now:** Development @nlbs/og preset package (wrapped astro-og-canvas).
+**Now:** i drowning again, i messed it up again, exhausted again
 
 ### Current Stack [ █_▀ ]
 
