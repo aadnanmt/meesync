@@ -2,8 +2,18 @@ name: CI
 on:
   push:
     branches: [main]
+    paths:
+      - 'scripts/**'
+      - 'config.json'
+      - 'deno.json'
+      - '.github/workflows/ci.yml'
   pull_request:
     branches: [main]
+    paths:
+      - 'scripts/**'
+      - 'config.json'
+      - 'deno.json'
+      - '.github/workflows/ci.yml'
 
 jobs:
   check:
