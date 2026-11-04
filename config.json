@@ -1,8 +1,5 @@
 {
-  "allowedOwner": [
-    "aadnanmt",
-    "nanoolabs"
-  ],
+  "allowedOwner": ["aadnanmt", "nanoolabs"],
   "excludedLanguages": [
     "EJS",
     "Stylus",
